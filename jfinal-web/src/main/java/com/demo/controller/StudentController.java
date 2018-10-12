@@ -37,10 +37,21 @@ public class StudentController extends Controller {
         renderJson(students);
     }
 
-    @Before(StudentValidator.class)
+   // @Before(StudentValidator.class)
     public void save() {
-        getModel(Student.class).save();
-        redirect("/student/index.jsp");
+//       1. getModel 前端参数  student.name  student.age 命名
+        Student student = getModel(Student.class);
+        student.save();
+
+//        2.当前端传过来的参数不是student.name 而是otherName.name 可以用以下方式获取
+//        Student otherName = getModel(Student.class, "otherName");
+//        System.out.println(otherName.get("name"));
+
+
+//        getBean Student类要有getset方法(官方说明有set即可)，并且提交的前端参数支持传统的 Java Bean（如:name=xx$age=20）
+//        getBean(Student.class,"").save();;
+
+        redirect("/student");
     }
 
     public void delete() {
@@ -78,4 +89,5 @@ public class StudentController extends Controller {
             e.printStackTrace();
         }
     }
+
 }

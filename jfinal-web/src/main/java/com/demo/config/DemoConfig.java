@@ -22,6 +22,9 @@ public class DemoConfig extends JFinalConfig {
         constants.setDevMode(true);
         //设置渲染视图类型为 JSP
         constants.setViewType(ViewType.JSP);
+        // 第一次使用use加载的配置将成为主配置，可以通过PropKit.get(...)直接取值
+        // PropKit.use("common_config.txt");
+        // PropKit.get("jdbcUrl");
 
     }
 
@@ -35,6 +38,8 @@ public class DemoConfig extends JFinalConfig {
 
     @Override
     public void configPlugin(Plugins plugins) {
+        // 非第一次使用use加载的配置，需要通过每次使用use来指定配置文件名再来取值
+        // String redisHost= PropKit.use("common_config.txt").get("jdbcUrl");
         loadPropertyFile("common_config.txt");//读取配置文件
         C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"),getProperty("jdbcUser"),getProperty("jdbcPassword"));
         plugins.add(c3p0Plugin);
